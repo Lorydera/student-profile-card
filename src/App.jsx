@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Header        from "./components/Header";
-import ClassButton   from "./components/ClassButton";
+import ClassButton   from "./components/classButton";
 import StudentList   from "./components/StudentList";
 import EnrollForm    from "./components/EnrollForm";
 import StatusMessage from "./components/StatusMessage";
