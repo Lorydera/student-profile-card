@@ -1,23 +1,19 @@
-import StudentCard from "./StudentCard"
+import StudentCard from "./StudentCard";
 
-const StudentList = ({ students, title = "All Students", children }) => {
-  return (
-    <div className="student-list">
-      <h2>{title}</h2>
+const StudentList = ({ students, title = "All Students", children }) => (
+  <section className="student-list">
+    <h2>{title}</h2>
+    {students.length === 0 ? (
+      <p>No students to display yet</p>
+    ) : (
+      <div className="card-grid">
+        {students.map((student) => (
+          <StudentCard key={student.id} {...student} />
+        ))}
+      </div>
+    )}
+    {children}
+  </section>
+);
 
-      {students.length > 0
-        ? <div className="student-grid">
-            {students.map((student) => (
-              <StudentCard key={student.id} {...student} />
-            ))}
-          </div>
-        : <p>No students to display</p>
-      }
-
-      {children}
-    </div>
-  )
-}
-
-export default StudentList
-    
+export default StudentList;

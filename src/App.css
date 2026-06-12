@@ -1,160 +1,109 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f2f5;
-  color: #333;
-}
-
-/* HEADER */
-.header {
-  background-color: #1a1a2e;
-  color: white;
-  padding: 24px 40px;
-  text-align: center;
-}
-
-.header h1 {
-  font-size: 1.8rem;
-  margin-bottom: 8px;
-}
-
-.header p {
-  font-size: 1rem;
-  color: #a0a0c0;
-}
-
-/* STUDENT LIST */
-.student-list {
-  padding: 32px 40px;
-}
-
-.student-list h2 {
-  font-size: 1.4rem;
-  margin-bottom: 24px;
+  font-family: system-ui, sans-serif;
+  background: #f4f5f7;
   color: #1a1a2e;
+  min-height: 100vh;
 }
 
-.student-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
+/* ── Header ── */
+.app-header {
+  background: #1a1a2e;
+  color: #fff;
+  padding: 1.5rem 2rem;
 }
+.app-header h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+.app-header p  { font-size: 0.9rem; opacity: 0.75; }
 
-.footer-message {
-  text-align: center;
-  margin-top: 32px;
-  color: #888;
+/* ── Layout ── */
+.app-main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* ── Form ── */
+.enroll-form {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.enroll-form h2 { margin-bottom: 1rem; font-size: 1.1rem; }
+
+.form-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+.field { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; min-width: 140px; }
+.field label { font-size: 0.8rem; font-weight: 600; color: #555; }
+.field input, .field select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+.field-checkbox { justify-content: flex-end; }
+.field-checkbox label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 400; }
+
+.error  { color: #c0392b; font-size: 0.78rem; }
+.preview {
   font-size: 0.9rem;
+  color: #2c6e49;
+  background: #eafaf1;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
 }
 
-/* STUDENT CARD */
+/* ── Buttons ── */
+.btn {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn:hover { opacity: 0.85; }
+.btn-primary  { background: #1a1a2e; color: #fff; }
+.btn-outline  { background: transparent; border: 1px solid #1a1a2e; color: #1a1a2e; }
+.btn-disabled { background: #aaa; color: #fff; cursor: not-allowed; }
+
+/* ── Status ── */
+.status-message { padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem; }
+.status-loading { background: #eaf4fb; color: #1a5276; }
+.status-error   { background: #fdedec; color: #922b21; }
+
+/* ── Student list ── */
+.student-list h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Student card ── */
 .student-card {
-  background-color: white;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 2px solid transparent;
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  gap: 1rem;
+  align-items: flex-start;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  border-left: 4px solid transparent;
 }
+.card-active   { border-left-color: #27ae60; }
+.card-inactive { border-left-color: #bdc3c7; opacity: 0.75; }
 
-.student-card.inactive {
-  background-color: #f9f9f9;
-  border-color: #ddd;
-  opacity: 0.75;
-}
+.avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
 
-.student-card img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-}
+.card-info h3       { font-size: 0.95rem; margin-bottom: 0.2rem; }
+.card-meta          { font-size: 0.78rem; color: #666; margin-bottom: 0.35rem; }
+.card-score         { font-size: 0.82rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
 
-.student-card h2 {
-  font-size: 1.1rem;
-  text-align: center;
-}
+.badge { padding: 0.15rem 0.5rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+.badge-active   { background: #eafaf1; color: #1e8449; }
+.badge-inactive { background: #f2f3f4; color: #7f8c8d; }
 
-/* BADGES */
-.badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-}
-
-.badge {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: bold;
-}
-
-.badge-track {
-  background-color: #e0e7ff;
-  color: #3730a3;
-}
-
-.badge-status {
-  background-color: #dcfce7;
-  color: #166534;
-}
-
-.badge-grade {
-  background-color: #fef9c3;
-  color: #854d0e;
-}
-
-/* STAT BAR */
-.statbar-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-}
-
-.statbar-track {
-  flex: 1;
-  background-color: #e5e7eb;
-  border-radius: 999px;
-  height: 10px;
-  overflow: hidden;
-}
-
-.statbar-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.3s ease;
-}
-
-/* SKILLS */
-.skills {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-}
-
-.skills span {
-  background-color: #f3f4f6;
-  color: #374151;
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-}
-
-.skills p {
-  color: #9ca3af;
-  font-size: 0.8rem;
-  font-style: italic;
-}
+/* ── Footer ── */
+.roster-footer { font-size: 0.82rem; color: #888; margin-top: 0.5rem; }
+.refresh-row   { margin-top: 2rem; }
