@@ -3,7 +3,7 @@ const MESSAGES = {
   error: "Failed to load roster. Showing local data only.",
 };
 
-const StatusMessage = ({ type }: { type: "loading" | "error" }) => (
+const StatusMessage = ({ type }) => (
   <p className={`status-message status-${type}`}>{MESSAGES[type]}</p>
 );
 
