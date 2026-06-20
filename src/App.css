@@ -7,6 +7,27 @@ body {
   min-height: 100vh;
 }
 
+/* ── Navbar ── */
+.navbar {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.75rem 2rem;
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+.nav-link {
+  text-decoration: none;
+  color: #555;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.3rem 0;
+  border-bottom: 2px solid transparent;
+}
+.nav-active {
+  color: #1a1a2e;
+  border-bottom-color: #1a1a2e;
+}
+
 /* ── Header ── */
 .app-header {
   background: #1a1a2e;
@@ -51,6 +72,36 @@ body {
   border-radius: 6px;
   margin-bottom: 1rem;
 }
+
+
+/* ── Detail page ── */
+.detail-page .back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #1a1a2e;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.detail-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-width: 400px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.detail-avatar { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; }
+.detail-card h2 { margin-bottom: 0.75rem; }
+.detail-card p { font-size: 0.9rem; margin-bottom: 0.4rem; color: #444; }
+
+/* ── 404 page ── */
+.not-found { text-align: center; padding: 3rem 1rem; }
+.not-found h2 { margin-bottom: 0.5rem; }
+.not-found a { color: #1a1a2e; }
+
+/* ── Card name link ── */
+.card-name-link { text-decoration: none; color: inherit; }
+.card-name-link:hover h3 { color: #1a1a2e; text-decoration: underline; }
 
 /* ── Buttons ── */
 .btn {

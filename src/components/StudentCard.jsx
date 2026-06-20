@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const getGrade = (score) => {
   if (score >= 90) return "A";
   if (score >= 80) return "B";
@@ -6,11 +8,13 @@ const getGrade = (score) => {
   return "F";
 };
 
-const StudentCard = ({ firstName, lastName, email, track, score, isActive, avatar }) => (
+const StudentCard = ({ id, firstName, lastName, email, track, score, isActive, avatar }) => (
   <div className={`student-card ${isActive ? "card-active" : "card-inactive"}`}>
     <img src={avatar} alt={`${firstName} ${lastName}`} className="avatar" />
     <div className="card-info">
-      <h3>{`${firstName} ${lastName}`}</h3>
+       <Link to={`/students/${id}`} className="card-name-link">
+        <h3>{`${firstName} ${lastName}`}</h3>
+      </Link>
       <p className="card-meta">{`${track} · ${email}`}</p>
       <p className="card-score">
         {`Score: ${score} (Grade: ${getGrade(score)})`}

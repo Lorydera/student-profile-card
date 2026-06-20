@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import Header        from "./components/Header";
-import ClassButton   from "./components/classButton";
-import StudentList   from "./components/StudentList";
-import EnrollForm    from "./components/EnrollForm";
-import StatusMessage from "./components/StatusMessage";
+import { Routes, Route } from "react-router-dom";
+import Navbar             from "./components/Navbar";
+import HomePage            from "./pages/HomePage";
+import StudentDetailPage   from "./pages/StudentDetailPage";
+import EnrollPage          from "./pages/EnrollPage";
+import NotFoundPage        from "./pages/NotFoundPage";
+import Header              from "./components/Header";
 import "./App.css";
 
 const TRACKS = ["Frontend", "Backend", "Mobile", "Data"];
@@ -110,29 +112,30 @@ export default function App() {
         studentCount={students.length}
         averageScore={average}
       />
+      <Navbar />
 
-      <main className="app-main">
-        <EnrollForm tracks={TRACKS} onEnroll={handleEnroll} />
-
-        {loading && <StatusMessage type="loading" />}
-        {!loading && error && <StatusMessage type="error" />}
-
-        {!loading && (
-          <StudentList students={students} title="Student Roster">
-            <p className="roster-footer">
-              {`End of roster — ${students.length} total`}
-            </p>
-          </StudentList>
-        )}
-
-        <div className="refresh-row">
-          <ClassButton
-            title="↻ Refresh Roster"
-            onClick={fetchRoster}
-            className="btn-outline"
-          />
-        </div>
-      </main>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <HomePage
+              students={students}
+              loading={loading}
+              error={error}
+              onRefresh={fetchRoster}
+            />
+          }
+        />
+        <Route
+          path="/students/:id"
+          element={<StudentDetailPage students={students} />}
+        />
+        <Route
+          path="/enroll"
+          element={<EnrollPage onEnroll={handleEnroll} />}
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </div>
   );
 }
