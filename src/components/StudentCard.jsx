@@ -1,4 +1,6 @@
+// Styling method: CSS Modules
 import { Link } from "react-router-dom";
+import styles from "../styles/StudentCard.module.css";
 
 const getGrade = (score) => {
   if (score >= 90) return "A";
@@ -8,17 +10,24 @@ const getGrade = (score) => {
   return "F";
 };
 
+const getBorderClass = (score) => {
+  const grade = getGrade(score);
+  if (grade === "A" || grade === "B") return styles.gradeAB;
+  if (grade === "C") return styles.gradeC;
+  return styles.gradeDF;
+};
+
 const StudentCard = ({ id, firstName, lastName, email, track, score, isActive, avatar }) => (
-  <div className={`student-card ${isActive ? "card-active" : "card-inactive"}`}>
-    <img src={avatar} alt={`${firstName} ${lastName}`} className="avatar" />
-    <div className="card-info">
-       <Link to={`/students/${id}`} className="card-name-link">
+  <div className={`${styles.card} ${getBorderClass(score)} ${!isActive ? styles.inactive : ""}`}>
+    <img src={avatar} alt={`${firstName} ${lastName}`} className={styles.avatar} />
+    <div className={styles.info}>
+      <Link to={`/students/${id}`} className={styles.nameLink}>
         <h3>{`${firstName} ${lastName}`}</h3>
       </Link>
-      <p className="card-meta">{`${track} · ${email}`}</p>
-      <p className="card-score">
+      <p className={styles.meta}>{`${track} · ${email}`}</p>
+      <p className={styles.score}>
         {`Score: ${score} (Grade: ${getGrade(score)})`}
-        <span className={`badge ${isActive ? "badge-active" : "badge-inactive"}`}>
+        <span className={`${styles.badge} ${isActive ? styles.badgeActive : styles.badgeInactive}`}>
           {isActive ? "Active" : "Inactive"}
         </span>
       </p>

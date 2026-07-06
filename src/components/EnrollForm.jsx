@@ -1,15 +1,25 @@
-import { useState, useRef } from "react";
-import Button from "./Button";
+// Styling method: Material UI
+import { useState, useRef, useEffect } from "react";
+import {
+  TextField, Select, MenuItem, Button,
+  Grid, FormControl, InputLabel, FormHelperText, Typography, Box,
+} from "@mui/material";
 
 const EnrollForm = ({ tracks, onEnroll }) => {
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName]   = useState("");
-  const [track, setTrack]         = useState(tracks[0]);
-  const [score, setScore]         = useState("");
-  const [errors, setErrors]       = useState({});
+  const [lastName,  setLastName]  = useState("");
+  const [track,     setTrack]     = useState(tracks[0]);
+  const [score,     setScore]     = useState("");
+  const [errors,    setErrors]    = useState({});
 
   const emailRef    = useRef(null);
   const isActiveRef = useRef(null);
+  const firstNameRef = useRef(null);
+
+  // Auto-focus first name on mount (Step 7)
+  useEffect(() => {
+    firstNameRef.current?.focus();
+  }, []);
 
   const validate = () => {
     const errs = {};
@@ -17,9 +27,9 @@ const EnrollForm = ({ tracks, onEnroll }) => {
     if (!lastName.trim())  errs.lastName  = "Last name is required.";
     const s = Number(score);
     if (score === "" || isNaN(s) || s < 0 || s > 100)
-      errs.score = "Score must be a number between 0 and 100.";
+      errs.score = "Score must be 0–100.";
     if (!emailRef.current?.value.includes("@"))
-      errs.email = "Enter a valid email address.";
+      errs.email = "Enter a valid email.";
     return errs;
   };
 
@@ -45,7 +55,6 @@ const EnrollForm = ({ tracks, onEnroll }) => {
     setTrack(tracks[0]);
     setScore("");
     setErrors({});
-
     if (emailRef.current)    emailRef.current.value      = "";
     if (isActiveRef.current) isActiveRef.current.checked = false;
   };
@@ -53,89 +62,103 @@ const EnrollForm = ({ tracks, onEnroll }) => {
   const hasErrors = Object.keys(errors).length > 0;
 
   return (
-    <section className="enroll-form">
-      <h2>Enroll New Student</h2>
-      <form onSubmit={handleSubmit} noValidate>
-        <div className="form-row">
-          <div className="field">
-            <label>First name</label>
-            <input
-              type="text"
+    <Box component="section" sx={{ background: "#fff", borderRadius: 2, p: 3, mb: 3, boxShadow: 1 }}>
+      <Typography variant="h6" sx={{ mb: 2 }}>Enroll New Student</Typography>
+      <Box component="form" onSubmit={handleSubmit} noValidate>
+        <Grid container spacing={2}>
+          {/* Controlled inputs */}
+          <Grid size={{ xs: 12, md: 6 }}>
+            <TextField
+              fullWidth
+              label="First name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              error={!!errors.firstName}
+              helperText={errors.firstName}
+              inputRef={firstNameRef}
               placeholder="Amara"
+              size="small"
             />
-            {errors.firstName && <span className="error">{errors.firstName}</span>}
-          </div>
-
-          <div className="field">
-            <label>Last name</label>
-            <input
-              type="text"
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <TextField
+              fullWidth
+              label="Last name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              error={!!errors.lastName}
+              helperText={errors.lastName}
               placeholder="Johnson"
+              size="small"
             />
-            {errors.lastName && <span className="error">{errors.lastName}</span>}
-          </div>
-
-          <div className="field">
-            <label>Track</label>
-            <select aria-label="Track" value={track} onChange={(e) => setTrack(e.target.value)}>
-              {tracks.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="field">
-            <label>Score</label>
-            <input
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FormControl fullWidth size="small">
+              <InputLabel>Track</InputLabel>
+              <Select
+                value={track}
+                label="Track"
+                onChange={(e) => setTrack(e.target.value)}
+              >
+                {tracks.map((t) => (
+                  <MenuItem key={t} value={t}>{t}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <TextField
+              fullWidth
+              label="Score"
               type="number"
               value={score}
               onChange={(e) => setScore(e.target.value)}
+              error={!!errors.score}
+              helperText={errors.score}
+              inputProps={{ min: 0, max: 100 }}
               placeholder="0–100"
-              min="0"
-              max="100"
+              size="small"
             />
-            {errors.score && <span className="error">{errors.score}</span>}
-          </div>
-        </div>
+          </Grid>
 
-        <div className="form-row">
-          <div className="field">
-            <label>Email <em>(uncontrolled)</em></label>
-            <input
+          {/* Uncontrolled inputs */}
+          <Grid size={{ xs: 12, md: 6 }}>
+            <TextField
+              fullWidth
+              label="Email (uncontrolled)"
               type="email"
-              ref={emailRef}
+              inputRef={emailRef}
               defaultValue=""
+              error={!!errors.email}
+              helperText={errors.email}
               placeholder="you@example.com"
+              size="small"
             />
-            {errors.email && <span className="error">{errors.email}</span>}
-          </div>
-
-          <div className="field field-checkbox">
-            <label>
-              <input type="checkbox" ref={isActiveRef} defaultChecked={false} />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <input type="checkbox" ref={isActiveRef} defaultChecked={false} id="isActive" />
+            <label htmlFor="isActive" style={{ fontSize: "0.9rem" }}>
               Active <em>(uncontrolled)</em>
             </label>
-          </div>
-        </div>
+          </Grid>
+        </Grid>
 
         {(firstName || lastName) && (
-          <p className="preview">
-            Preview: {`${firstName} ${lastName}`.trim()} — {track}
-            {score && ` (${score})`}
-          </p>
+          <Typography sx={{ mt: 2, color: "#2c6e49", background: "#eafaf1", px: 1.5, py: 0.5, borderRadius: 1, fontSize: "0.9rem" }}>
+            Preview: {`${firstName} ${lastName}`.trim()} — {track}{score && ` (${score})`}
+          </Typography>
         )}
 
         <Button
-          title="Enroll"
-          onClick={() => {}}
-          className={hasErrors ? "btn-disabled" : "btn-primary"}
-        />
-      </form>
-    </section>
+          type="submit"
+          variant="contained"
+          disabled={hasErrors}
+          sx={{ mt: 2, background: "#1a1a2e", "&:hover": { background: "#16213e" } }}
+        >
+          Enroll
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

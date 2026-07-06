@@ -1,4 +1,7 @@
+// Styling method: Plain/External CSS
 import { useParams, Link } from "react-router-dom";
+import { useStudents } from "../context/StudentContext";
+import "../styles/StudentDetailPage.css";
 
 const getGrade = (score) => {
   if (score >= 90) return "A";
@@ -8,21 +11,21 @@ const getGrade = (score) => {
   return "F";
 };
 
-const StudentDetailPage = ({ students }) => {
+const StudentDetailPage = () => {
   const { id } = useParams();
+  const { students } = useStudents();
   const student = students.find((s) => s.id === id);
 
   if (!student) {
     return (
-      <main className="app-main">
-        <p>Student not found</p>
-        <Link to="/">← Back to Roster</Link>
+      <main className="detail-main">
+        <p className="not-found-msg">Student not found. <Link to="/">← Back to Roster</Link></p>
       </main>
     );
   }
 
   return (
-    <main className="app-main detail-page">
+    <main className="detail-main">
       <Link to="/" className="back-link">← Back to Roster</Link>
       <div className="detail-card">
         <img src={student.avatar} alt={`${student.firstName} ${student.lastName}`} className="detail-avatar" />
